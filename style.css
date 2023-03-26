@@ -1,0 +1,46 @@
+@import "compass/css3";
+
+$n: 48;
+$m: 24;
+$rt: 8em;
+$rc: 3.5em;
+$d: .25em;
+$c: deeppink, yellow, cyan;
+$len: length($c);
+html {
+  overflow: hidden;
+  height: 100%;
+  perspective: 65em;
+  perspective-origin: 50% -30em;
+  transform: scaleX(1.25);
+  background: black;
+}
+.field, .field * {
+  position: absolute;
+  top: 50%; left: 50%;
+  border-radius: 50%;
+  transform-style: preserve-3d;
+}
+.field { top: 10em; animation: roty 40s linear infinite; }
+.circle {
+  @for $i from 0 to $n {
+    &:nth-child(#{$i + 1}) {
+      transform: rotateX(#{$i*360/$n}deg) translateZ($rt);
+      .rotor {
+        animation: rotx 15s linear (-($i%$len)*5s) infinite;
+      }
+    }
+  }
+}
+.dot {
+  margin: -$d/2;
+  width: $d; height: $d;
+  @for $i from 0 to $m {
+    &:nth-child(#{$i + 1}) {
+      transform: rotateX(#{$i*360/$m}deg) translateZ($rc);
+      background: nth($c, $i%$len + 1);
+    }
+  }
+}
+@keyframes rotx { to { transform: rotateX(360deg); } }
+@keyframes roty { to { transform: rotateY(360deg); } }
